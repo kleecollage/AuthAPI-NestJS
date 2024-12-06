@@ -1,13 +1,15 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
+import configurationAuth from 'src/configuration/configuration-auth';
 import configurationMongo from 'src/configuration/configuration-mongo';
+import { AuthModule } from 'src/modules/auth/auth.module';
 import { UsersModule } from 'src/modules/users/users.module';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
-      load: [configurationMongo],
+      load: [configurationMongo, configurationAuth],
       envFilePath: `./env/${process.env.NODE_ENV}.env`,
       isGlobal: true,
     }),
@@ -19,6 +21,7 @@ import { UsersModule } from 'src/modules/users/users.module';
       }),
     }),
     UsersModule,
+    AuthModule,
   ],
   controllers: [],
   providers: [],
