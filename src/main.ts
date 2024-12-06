@@ -10,6 +10,13 @@ async function bootstrap() {
     .setTitle('Authentication')
     .setDescription('Example Authentication')
     .setVersion('1.0')
+    .addBearerAuth(
+      {
+        bearerFormat: 'jwt',
+        type: 'http',
+      },
+      'jwt',
+    )
     .build();
   const documentFactory = () => SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api', app, documentFactory);
