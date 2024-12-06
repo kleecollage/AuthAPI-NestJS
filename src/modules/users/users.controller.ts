@@ -1,4 +1,5 @@
-import { Body, Controller, Get, Param, Post } from '@nestjs/common';
+import { Body, Controller, Get, Post, UseGuards } from '@nestjs/common';
+import { AuthGuard } from '@nestjs/passport';
 import { ApiTags } from '@nestjs/swagger';
 import { UserDto } from 'src/modules/users/dto/user-dto';
 import { UsersService } from 'src/modules/users/users.service';
@@ -9,17 +10,14 @@ export class UsersController {
   constructor(private userService: UsersService) {}
 
   @Post()
+  @UseGuards(AuthGuard('jwt'))
   createUser(@Body() user: UserDto) {
     return this.userService.createUser(user);
   }
 
   @Get()
+  @UseGuards(AuthGuard('jwt'))
   getUsers() {
     return this.userService.getUsers();
-  }
-
-  @Get()
-  getUserByEmail(@Param('email') email: string) {
-    return this.userService.getUserByEmail(email);
   }
 }
